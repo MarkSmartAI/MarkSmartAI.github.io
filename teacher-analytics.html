@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .notification-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .notification-button:hover {
+            background-color: #0056b3;
+        }
+        .notification-table {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 15px;
+            display: none;
+        }
+        .notification-table h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+        .notification-table ul {
+            padding: 0;
+            list-style: none;
+        }
+        .notification-table li {
+            margin: 5px 0;
+        }
+        .overview-cards {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .card {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f0f8ff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .card h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        a {
+            color: #2196F3;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .chart-container {
+            margin-top: 30px;
+        }
+        .review-section {
+            margin-top: 30px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .review-section h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teacher Analytics</h1>
+
+        <!-- Notification Button -->
+        <button class="notification-button" onclick="toggleNotification()">Show Notifications</button>
+
+        <!-- Notification Table -->
+        <div class="notification-table" id="notificationTable">
+            <h3>Review Notifications</h3>
+            <ul>
+                <li>Jane Doe, Q2: Confidence Level Low</li>
+                <li>John Doe, Q4: Confidence Level Low</li>
+            </ul>
+        </div>
+
+        <!-- Overview Cards -->
+        <div class="overview-cards">
+            <div class="card">
+                <h3>Total Submissions</h3>
+                <p>4</p>
+            </div>
+            <div class="card">
+                <h3>Class Average</h3>
+                <p>68%</p>
+            </div>
+            <div class="card">
+                <h3>Top Score</h3>
+                <p>90%</p>
+            </div>
+            <div class="card">
+                <h3>Lowest Score</h3>
+                <p>45%</p>
+            </div>
+        </div>
+
+        <!-- Score Distribution Chart -->
+        
+
+            <canvas id="scoreDistributionChart"></canvas>
+        </div>
+
+        <!-- Student Performance Table -->
+        <div class="analytics-section">
+            <h2>Student Performance</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Score</th>
+                        <th>Class Average Comparison</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="student-performance.html">John Doe</a></td>
+                        <td>90%</td>
+                        <td>Above Average</td>
+                        <td>Pass</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>75%</td>
+                        <td>Above Average</td>
+                        <td>Pass</td>
+                    </tr>
+                    <tr>
+                        <td>Chris Evans</td>
+                        <td>60%</td>
+                        <td>Below Average</td>
+                        <td>Pass</td>
+                    </tr>
+                    <tr>
+                        <td>Mary Johnson</td>
+                        <td>45%</td>
+                        <td>Well Below Average</td>
+                        <td>Fail</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Topic-Wise Performance Chart -->
+        <div class="chart-container">
+            <h2>Topic-Wise Performance</h2>
+            <canvas id="topicPerformanceChart"></canvas>
+        </div>
+
+        <!-- Question Analysis Table -->
+        <div class="analytics-section">
+            <h2>Question Analysis</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Topic</th>
+                        <th>Correct Responses</th>
+                        <th>Incorrect Responses</th>
+                        <th>Success Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>What is the acceleration of an object under free fall?</td>
+                        <td>Mechanics</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td>75%</td>
+                    </tr>
+                    <tr>
+                        <td>What is the net force on an object moving at constant velocity?</td>
+                        <td>Mechanics</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>50%</td>
+                    </tr>
+                    <tr>
+                        <td>What is the wavelength of a wave with frequency 50 Hz and speed 1500 m/s?</td>
+                        <td>Waves</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td>75%</td>
+                    </tr>
+                    <tr>
+                        <td>What is the equivalent resistance of two 10 Ω resistors in parallel?</td>
+                        <td>Circuits</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>25%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Review Section -->
+        <div class="review-section">
+            <h3>Insights and Recommendations</h3>
+            <p><strong>Topics Needing Attention:</strong> Circuits (25%), Mechanics (62.5%).</p>
+            <p>Consider reviewing these topics in class and assigning additional practice to improve understanding.</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle notification visibility
+        function toggleNotification() {
+            const notificationTable = document.getElementById('notificationTable');
+            notificationTable.style.display = notificationTable.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Score Distribution Chart
+        const scoreCtx = document.getElementById('scoreDistributionChart').getContext('2d');
+        const scoreDistributionChart = new Chart(scoreCtx, {
+            type: 'bar',
+            data: {
+                labels: ['0-20%', '21-40%', '41-60%', '61-80%', '81-100%'],
+                datasets: [{
+                    label: 'Number of Students',
+                    data: [0, 1, 1, 1, 1],
+                    backgroundColor: '#4CAF50'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Topic Performance Chart
+        const topicCtx = document.getElementById('topicPerformanceChart').getContext('2d');
+        const topicPerformanceChart = new Chart(topicCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Mechanics', 'Waves', 'Circuits'],
+                datasets: [{
+                    label: 'Average Performance (%)',
+                    data: [62.5, 75, 25],
+                    backgroundColor: ['#FF5733', '#33FF57', '#3357FF']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

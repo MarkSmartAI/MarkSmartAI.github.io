@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child's Homework Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .summary {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+        .summary-item {
+            text-align: center;
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            width: 30%;
+        }
+        .summary-item h3 {
+            margin: 5px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .improvement {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .charts {
+            margin: 20px 0;
+        }
+        .chart-container {
+            width: 100%;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Homework Analysis</h1>
+        <p>Here's a detailed breakdown of your child's homework performance.</p>
+
+        <div class="summary">
+            <div class="summary-item">
+                <h3>Questions Attempted</h3>
+                <p>20</p>
+            </div>
+            <div class="summary-item">
+                <h3>Correct Answers</h3>
+                <p>15</p>
+            </div>
+            <div class="summary-item">
+                <h3>Accuracy</h3>
+                <p>75%</p>
+            </div>
+        </div>
+
+        <h2>Question-wise Breakdown</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Question</th>
+                    <th>Correct Answer</th>
+                    <th>Your Answer</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>What is 5 + 3?</td>
+                    <td>8</td>
+                    <td>8</td>
+                    <td style="color: green;">Correct</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>What is the capital of France?</td>
+                    <td>Paris</td>
+                    <td>London</td>
+                    <td style="color: red;">Incorrect</td>
+                </tr>
+                <!-- More rows as needed -->
+            </tbody>
+        </table>
+
+        <h2>Areas for Improvement</h2>
+        <div class="improvement">
+            <p><strong>Topic:</strong> Geography</p>
+            <p>Your child struggled with questions related to world capitals. Consider reviewing this topic together.</p>
+        </div>
+        <div class="improvement">
+            <p><strong>Topic:</strong> Arithmetic</p>
+            <p>Focus on multiplication tables to boost confidence in solving basic arithmetic problems.</p>
+        </div>
+
+        <div class="charts">
+            <h2>Performance Comparison</h2>
+            <div class="chart-container">
+                <canvas id="testPerformanceChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="topicComparisonChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const testPerformanceCtx = document.getElementById('testPerformanceChart').getContext('2d');
+        const testPerformanceChart = new Chart(testPerformanceCtx, {
+            type: 'line',
+            data: {
+                labels: ['Test 1', 'Test 2', 'Test 3', 'Current Test'],
+                datasets: [
+                    {
+                        label: 'Your Child',
+                        data: [65, 70, 75, 75],
+                        borderColor: '#4CAF50',
+                        fill: false
+                    },
+                    {
+                        label: 'Class Average',
+                        data: [70, 72, 78, 85],
+                        borderColor: '#2196F3',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const topicComparisonCtx = document.getElementById('topicComparisonChart').getContext('2d');
+        const topicComparisonChart = new Chart(topicComparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Arithmetic', 'Geography', 'Science'],
+                datasets: [
+                    {
+                        label: 'Your Child',
+                        data: [60, 50, 70],
+                        backgroundColor: '#4CAF50'
+                    },
+                    {
+                        label: 'Class Average',
+                        data: [75, 65, 80],
+                        backgroundColor: '#2196F3'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
